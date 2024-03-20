@@ -17,3 +17,17 @@
  * Given an array ["hello", "my", "name", "is"], after calling reverse_arr
  * will result in ["is", "name", "my", "hello"]
  */
+void swap(char** thechar, int theFirst, int theSecond);
+void reverse_arr(char** arr, int num) {
+  int i = 0;
+  while (i < num - 1 - i) {
+    swap(arr, i, num - 1 - i);
+    i++;
+  }
+}
+
+void swap(char** thechar, int theFirst, int theSecond) {
+  char* cache = thechar[theFirst];
+  thechar[theFirst] = thechar[theSecond];
+  thechar[theSecond] = cache;
+}

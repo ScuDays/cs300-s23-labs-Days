@@ -30,6 +30,9 @@
  *
  */
 
-void reverse_arr(char** arr, int num); //This is needed, so that test_reverse.c can find and use the reverse_arr function
+void reverse_arr(char** arr,
+                 int num);  // This is needed, so that test_reverse.c can find
+                            // and use the reverse_arr function
 
-//We don't want to include the `swap` function here, because it's only used internally in reverse.c, and doesn't need to be available to other files.
+// We don't want to include the `swap` function here, because it's only used
+// internally in reverse.c, and doesn't need to be available to other files.
