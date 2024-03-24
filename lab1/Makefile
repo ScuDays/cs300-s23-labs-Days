@@ -26,7 +26,7 @@ clean:
 format:
 	clang-format -style=Google -i reverse.h reverse.c test_reverse.c
 
-test_reverse.o: %.o : %.c
+file_%: %.c
 	gcc $< -o $@
 # reverse.o: reverse.c
 # 	gcc  -c reverse.c -o reverse.o

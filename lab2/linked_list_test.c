@@ -1,4 +1,5 @@
 #include "linked_list.h"
+
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -80,10 +81,11 @@ void test_student_implementation() {
   // 2 -> 1
   int two = 2;
   insert_first(&one_int_list, &two, sizeof(int));
-  assert(* (int*)get_first(one_int_list) == two);
+  assert(*(int*)get_first(one_int_list) == two);
 
   // TEST REMOVE LAST
-  // To avoid confusing variable names, rename empty_list to previously_empty_single_item_list (since it's no longer empty) 
+  // To avoid confusing variable names, rename empty_list to
+  // previously_empty_single_item_list (since it's no longer empty)
   node_t* previously_empty_single_item_list = empty_list;
   char* removed_empty = remove_last(&previously_empty_single_item_list);
   assert(!get_last(previously_empty_single_item_list));

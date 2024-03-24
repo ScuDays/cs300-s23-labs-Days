@@ -18,7 +18,7 @@ void* get_last(node_t* head_list);
 void insert_first(node_t** head_list, void* to_add, size_t size);
 void insert_last(node_t** head_list, void* to_add, size_t size);
 void* get(node_t* head_list, int index);
-int remove_element(node_t **head_list, void *to_remove, size_t size);
+int remove_element(node_t** head_list, void* to_remove, size_t size);
 void reverse_helper(node_t** head_list);
 void reverse(node_t** head_list);
 void* remove_first(node_t** head_list);
