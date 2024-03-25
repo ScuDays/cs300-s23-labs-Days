@@ -68,7 +68,27 @@ void* get_last(node_t* head_list) {
  *
  * returns nothing
  */
-void insert_first(node_t** head_list, void* to_add, size_t size) { return; }
+void insert_first(node_t** head_list, void* to_add, size_t size) {
+ if (!to_add) {
+    return;
+  }
+  node_t* new_element = (node_t*)malloc(sizeof(node_t));
+  void* new_data = malloc(size);
+  memcpy(new_data, to_add, size);
+  new_element->data = new_data;
+  new_element->prev = NULL;
+  new_element->next = NULL;
+  if(*head_list == NULL){
+    *head_list = new_element;
+    return;  
+  }
+  else{
+    (*head_list)->prev = new_element;
+    new_element->next = *head_list;
+    *head_list = (*head_list)->prev;
+    return;
+  }
+  }
 
 /**
  * inserts element at the end of the linked list
@@ -115,7 +135,24 @@ void insert_last(node_t** head_list, void* to_add, size_t size) {
  *
  * returns the string associated with an index into the linked list
  */
-void* get(node_t* head_list, int index) { return NULL; }
+void* get(node_t* head_list, int index) { 
+  if(head_list == NULL){
+    return;
+  }
+  node_t* list = head_list;
+  int i = 0;
+  while(list->next != NULL){
+    if(i == (index))break;
+    list = list->next;
+    i++;
+  }
+  if(i != (index)){
+    return NULL;
+  }
+  else{
+    return list->data;
+  }
+}
 
 /**
  * removes element from linked list
@@ -158,6 +195,8 @@ int remove_element(node_t** head_list, void* to_remove, size_t size) {
  *
  * returns nothing
  */
+
+/** TODO: 理解一下这个反转怎么写的，一开始没看懂 */
 void reverse_helper(node_t** head_list) {
   node_t* curr = *head_list;
   node_t* placeholder = NULL;
@@ -221,4 +260,24 @@ void* remove_first(node_t** head_list) {
  * returns the void pointer of the element removed
  *
  */
-void* remove_last(node_t** head_list) { return NULL; }
+void* remove_last(node_t** head_list) { 
+  if(*head_list == NULL){
+    return;
+  }
+  node_t* list = *head_list;
+  while(list->next != NULL){
+    list = list->next;
+  }
+  node_t* release = list;
+  if(list->prev != NULL){
+  list = list->prev;
+  //free(release);
+  list->next = NULL;
+  }
+  else{
+    *head_list = NULL;
+    return NULL;
+  }
+
+  return release->data;
+  }

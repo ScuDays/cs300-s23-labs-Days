@@ -65,8 +65,9 @@ void test_student_implementation() {
   // insert to empty list
   insert_first(&empty_list, "programming", strlen("programming") + 1);
   assert(length_list(empty_list) == 1);
+
   assert(!strcmp(get_first(empty_list), get_last(empty_list)));
-  assert(!empty_list->prev);
+  assert(!empty_list->prev);  
   assert(!empty_list->next);
 
   // insert to one element list
