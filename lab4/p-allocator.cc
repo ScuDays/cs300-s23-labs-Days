@@ -23,7 +23,18 @@ void process_main() {
 
     // Allocate heap pages until (1) hit the stack (out of address space)
     // or (2) allocation fails (out of physical memory).
+   
     // TODO: Add your code here.
+  
+    uint8_t* nowAddr = heap_top;
+    //uint8_t* beforeAddr = heap_top;
+    for(int i = 0; i < 61; i++){
+           sys_page_alloc (nowAddr);
+           *nowAddr = p;
+           nowAddr += PAGESIZE;
+    }
+
+
 
     // Do nothing forever
     while (true) {
