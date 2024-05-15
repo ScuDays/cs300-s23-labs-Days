@@ -1,5 +1,6 @@
 #include "builtin.h"
 
+
 using namespace std;
 
 #define MAX_BUF_SIZE 1024
@@ -49,6 +50,14 @@ void do_fork(char* args[]) {
    * 1) fork into a child process to execute the function
    * 2) Outside of the child process, wait for the new process to finish
    */
+  //创建子线程
+  pid_t childpid = fork();
+  if(childpid != 0){
+    wait(NULL);
+  }
+  else if(childpid == 0){
+    execv(args[0],args);
+  }
 }
 
 /*
@@ -114,6 +123,8 @@ int main() {
 
     // Read from standard input into the input buffer
     char input[MAX_BUF_SIZE];
+   
+    fflush(stdout);
     fgets(input, MAX_BUF_SIZE, stdin);
 
     if (ferror(stdin)) {
