@@ -141,10 +141,12 @@ void printOccurrences(string term, int num_occurrences,
                       vector<wordindex>& files) {
   printf("Found %d instances of %s.\n", num_occurrences, term.c_str());
   for (auto& f : files) {
+    
     if (f.indexes.size()) {
       printf("%s found in %s at locations:\n", term.c_str(),
              f.filename.c_str());
       int num = 0;
+
       for (auto itr = f.indexes.begin(); itr != f.indexes.end(); itr++) {
         printf("Index %d: %s\n", *itr, f.phrases[num].c_str());
         num++;

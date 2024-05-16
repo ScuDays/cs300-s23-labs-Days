@@ -108,6 +108,8 @@ int process_input(string term, vector<string>& filenames, int** pipes,
   /* While the number of files that have been processed is less than the number
    * of files that need to be processed, do the steps described below:
    */
+  //如果剩余任务数量大于workers(最大线程数)——线程数为worker
+  //如果剩余任务数量小于workers(最大线程数)——线程数为剩余任务数量
   while (completed < total) {
     // number of processes to be created in this iteration of the loop
     int num_procs = 0;
@@ -117,22 +119,20 @@ int process_input(string term, vector<string>& filenames, int** pipes,
       num_procs = total - completed;
     }
 
-    /* Create num_procs processes
-     * For each process you should do the following:
-     * 1) start a pipe for the process
-     * 2) fork into a child process which runs the process_file function
-     * 3) in the parent process, add the child's pid to the array of pids
-     */
 
-    /* Read from each pipe
-     * For each processes you should do the following:
-     * 1) create a wordindex object for the process (the filename can be
-     *    set from the filenames array)
-     * 2) use the read_process_results function to fill in the data for
-     *    this file
-     * 3) add the wordindex object for this file to the fls vector and
-     * 4) update the total number of ocurrences accordingly
-     */
+    /**创建num_procs个进程
+      对于每个进程，您应该执行以下操作：
+      1）为该进程启动一个管道
+      2）分叉出一个子进程，运行process_file函数
+      3）在父进程中，将子进程的pid添加到pid数组中
+      */
+
+    /*从每个管道读取数据
+      对于每个进程，您应该执行以下操作：    
+      1）为该进程创建一个wordindex对象（文件名可以从filenames数组中设置）
+      2）使用read_process_results函数填充此文件的数据
+      3）将此文件的wordindex对象添加到fls向量中
+      4）相应地更新出现次数总计*/
 
     // Make sure each process created in this round has completed
 
