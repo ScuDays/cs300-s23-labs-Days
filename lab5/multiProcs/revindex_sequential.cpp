@@ -20,6 +20,8 @@ int process_input(string term, vector<string>& filenames) {
     file.filename = filenames[w];
   // 查找函数，第一个参数是在哪个文件里面查找，第二个参数是查询什么词语
     find_word(&file, term);
+    //printf("\nfilename:%s, filecount:%d ,term:%s\n", file.filename.c_str(), file.count,term.c_str());
+
     num_occurrences += file.indexes.size();
     fls.push_back(file);
   }
