@@ -1,4 +1,5 @@
 #include <thread>
+
 #include "wordindex.h"
 
 using namespace std;
@@ -19,6 +20,16 @@ using namespace std;
  *     - word: a string containing the desired search term.
  * Return value: an integer representing the total occurrences of the search
  * term in this batch of files.
+
+ * 填写这个函数，使其创建一系列线程并行执行`find_word`
+函数来搜索不同文件中的内容。 参数：
+- files: 一个指向 wordindex 类对象的向量引用，用于保存所有文件的搜索结果。
+- filenames: 包含目录中所有文件名字符串的向量，
+- start_pos: 一个整数，表示该批线程应从filenames 中哪个索引开始处理。
+- num_threads: 一个整数，表示此轮应创建多少个线程。
+- word: 包含所需搜索词条的字符串。
+
+返回值：代表这批文件中搜索词条总出现次数的整数。
  */
 int run_workers(vector<wordindex>& files, vector<string> filenames,
                 int start_pos, int num_threads, string word) {
@@ -26,12 +37,28 @@ int run_workers(vector<wordindex>& files, vector<string> filenames,
   // 1) create a new index object for the file being processes by the thread and
   //    add it to the files vector
   // 2) create the thread to run find_word with the proper arguments
+  // 对于每个线程num_threads：
+  // 1）为正在处理的文件创建一个新的索引对象，并将其添加到文件向量中
+  // 2）使用适当的参数创建线程来运行find_word
 
+  // 查询到的总数
+  int num_occurrences = 0;
+  std::thread threadArr[num_threads];
+  wordindex fileArr[num_threads];
+  for (int i = 0; i < num_threads; i++) {
+    fileArr[i].filename = filenames[i + start_pos];
+    threadArr[i] = thread(find_word, &fileArr[i], word);
+  }
+  for (int i = 0; i < num_threads; i++) {
+    threadArr[i].join();
+    num_occurrences += fileArr[i].indexes.size();
+    files.push_back(fileArr[i]);
+  }
   // join with each thread and add the count field of each index to the total
-  // sum
-
+  // 与每个线程一起连接，并将每个索引的计数字段添加到总和中
   // return the total sum for this batch of files
-  return 0;
+  // 返回此批文件的总和
+  return num_occurrences;
 }
 
 /* The main REPL for the program
@@ -50,6 +77,7 @@ void repl(char* dirname) {
 
   // read all files from directory
   get_files(filenames, dirname);
+  // 需要查询的文件总数
   num_files = filenames.size();
 
   files.reserve(num_files);
@@ -58,12 +86,14 @@ void repl(char* dirname) {
   char buf[255];
   fgets(buf, 255, stdin);
   while (!feof(stdin)) {
+    // 将char数组转为string字符串
     int len = char_traits<char>::length(buf) - 1;
     string term(buf, len);
     if (term.length() > 0) {
       int num_occurrences = 0;
+      // 将所有字母转为小写字母
       transform(term.begin(), term.end(), term.begin(), ::tolower);
-
+      // 已完成查询任务数
       int completed = 0;
       while (completed < num_files) {
         // determine number of threads for this round
