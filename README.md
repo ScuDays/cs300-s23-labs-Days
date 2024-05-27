@@ -1,6 +1,6 @@
 CS 300 Labs
 ===========
-
+完结撒花\\
 This repository contains the labs for Brown's CS 300/1310
 (CSCI 0300/1310) class, Fundamentals of Computer Systems.
 
